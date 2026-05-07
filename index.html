@@ -5,56 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TithiDarshan | Divine Calendar</title>
     <link rel="stylesheet" href="style.css">
-   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <nav class="glass-card" style="margin: 15px; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 15px; z-index: 100;">
+    <nav class="glass" style="margin: 10px; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
         <h1 class="cinzel" style="color: var(--saffron);">TithiDarshan</h1>
-        <div style="display: flex; gap: 20px; align-items: center;">
-            <i data-lucide="search"></i>
-            <i data-lucide="moon" onclick="document.body.classList.toggle('dark-mode')"></i>
-            <i data-lucide="menu"></i>
+        <div style="display: flex; gap: 15px;">
+            <button class="btn btn-saffron">Today</button>
+            <i data-lucide="menu" style="cursor: pointer;"></i>
         </div>
     </nav>
 
-    <main style="max-width: 1200px; margin: 0 auto; padding: 20px;">
-        <div style="text-align: center; margin-bottom: 30px;">
-            <h2 class="cinzel" style="font-size: 2rem;">માર્ચ ૨૦૨૪</h2>
-            <p>વિક્રમ સંવત ૨૦૮૦ | પોષ - મહા</p>
+    <main style="max-width: 1200px; margin: 0 auto; padding: 10px;">
+        <div class="glass" style="margin-bottom: 20px; padding: 20px; text-align: center;">
+            <h2 class="cinzel" id="monthName">May 2026</h2>
         </div>
 
-        <div class="calendar-grid" id="mainGrid">
-            </div>
+        <div class="calendar-grid glass" id="grid"></div>
     </main>
 
-    <div id="footer-placeholder"></div>
-
     <script>
-        lucide.createIcons();
-        const grid = document.getElementById('mainGrid');
-        
-        // કેલેન્ડર જનરેટ કરવાનો કોડ
-        for(let i=1; i<=31; i++) {
-            const cell = document.createElement('div');
-            cell.className = 'day-cell';
-            
-            // ઉદાહરણ માટે વ્રજ અને ગુર્જર તિથિઓ
-            let gT = "દશમી";
-            let vT = (i === 11) ? "એકાદશી" : "દશમી"; 
+        // ડેટા એડિટ કરવા માટે અહીં ફેરફાર કરો
+        const tithiData = {
+            7: { g: "એકાદશી", v: "મોહિની એકાદશી", fest: "Mohini Ekadashi", color: "gold" },
+            15: { g: "અમાસ", v: "અમાસ", fest: "Darsh Amavasya" }
+        };
 
+        const grid = document.getElementById('grid');
+        for (let i = 1; i <= 31; i++) {
+            const dayData = tithiData[i] || { g: `તિથિ ${i}`, v: `તિથિ ${i}` };
+            const cell = document.createElement('div');
+            cell.className = `day-cell glass ${dayData.color ? 'ekadashi-glow' : ''}`;
             cell.innerHTML = `
-                <span class="date-num">${i}</span>
-                <div class="tithi-item g-tithi">G: ${gT}</div>
-                <div class="tithi-item v-tithi">V: ${vT}</div>
-                ${i === 11 ? '<div class="fest-tag">પુત્રદા એકાદશી</div>' : ''}
+                <div class="date-num">${i}</div>
+                <div class="tithi-group">
+                    <div class="t-badge g-style"><span class="tithi-tag">G:</span> ${dayData.g}</div>
+                    <div class="t-badge v-style"><span class="tithi-tag">V:</span> ${dayData.v}</div>
+                </div>
+                ${dayData.fest ? `<div class="fest-tag">${dayData.fest}</div>` : ''}
             `;
-            cell.onclick = () => window.location.href = 'tithidata.html';
+            cell.onclick = () => window.location.href = `tithidata.html?day=${i}`;
             grid.appendChild(cell);
         }
-
-        // Footer Load
-        fetch('footer.html').then(res => res.text()).then(data => document.getElementById('footer-placeholder').innerHTML = data);
+        lucide.createIcons();
     </script>
 </body>
 </html>
