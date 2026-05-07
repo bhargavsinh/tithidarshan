@@ -3,52 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TithiDarshan | Divine Calendar</title>
+    <title>TithiDarshan | Traditional Panchang</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <nav class="glass" style="margin: 10px; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
-        <h1 class="cinzel" style="color: var(--saffron);">TithiDarshan</h1>
-        <div style="display: flex; gap: 15px;">
-            <button class="btn btn-saffron">Today</button>
-            <i data-lucide="menu" style="cursor: pointer;"></i>
-        </div>
-    </nav>
 
-    <main style="max-width: 1200px; margin: 0 auto; padding: 10px;">
-        <div class="glass" style="margin-bottom: 20px; padding: 20px; text-align: center;">
-            <h2 class="cinzel" id="monthName">May 2026</h2>
+    <header class="top-nav">
+        <a href="index.html" class="logo traditional-font">TithiDarshan</a>
+        <div style="display: flex; gap: 15px; align-items: center;">
+            <input type="text" id="searchInput" class="search-bar" placeholder="તિથિ અથવા ઉત્સવ શોધો...">
+            <button class="btn" onclick="toggleTheme()">Dark Mode</button>
+            <button class="btn" onclick="window.print()">Print</button>
         </div>
+    </header>
 
-        <div class="calendar-grid glass" id="grid"></div>
-    </main>
+    <div class="main-container">
+        <aside class="side-panel">
+            <div class="card">
+                <h3 class="card-title traditional-font">Today's Panchang</h3>
+                <h4 style="font-size: 1.5rem; margin-bottom: 5px;">7 May 2026</h4>
+                <p><strong>ગુર્જર:</strong> વૈશાખ સુદ ૫ (પાંચમી)</p>
+                <p><strong>વ્રજ:</strong> વૈશાખ શુક્લ પાંચમી</p>
+                <hr style="margin: 15px 0; border: 0; border-top: 1px solid var(--border-color);">
+                <p><strong>નક્ષત્ર:</strong> પુનર્વસુ</p>
+                <p><strong>રાહુકાળ:</strong> 13:58 - 15:36</p>
+            </div>
+            <div class="card">
+                <h3 class="card-title traditional-font">Upcoming</h3>
+                <p class="text-festival">મોહિની એકાદશી - 13 May</p>
+            </div>
+        </aside>
+
+        <main>
+            <div class="table-controls">
+                <button class="btn active" onclick="filterTable('all')">All Tithis</button>
+                <button class="btn" onclick="filterTable('ekadashi')">Ekadashi Only</button>
+                <button class="btn" onclick="filterTable('festival')">Festivals</button>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="panchang-table">
+                    <thead>
+                        <tr>
+                            <th>English Date</th>
+                            <th>Gujarati Date</th>
+                            <th>Gujarati Tithi</th>
+                            <th>Vraj Tithi</th>
+                            <th>Utsav / Special</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tithiTableBody">
+                        </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div id="footer-container"></div>
 
     <script>
-        // ડેટા એડિટ કરવા માટે અહીં ફેરફાર કરો
-        const tithiData = {
-            7: { g: "એકાદશી", v: "મોહિની એકાદશી", fest: "Mohini Ekadashi", color: "gold" },
-            15: { g: "અમાસ", v: "અમાસ", fest: "Darsh Amavasya" }
-        };
+        // Panchang Database Array (Editable)
+        const panchangData = [
+            { id: "2026-05-05", engDate: "5 May 2026", gujDate: "વૈશાખ સુદ ૩", gTithi: "ત્રીજ", vTithi: "તૃતીયા", utsav: "અખા ત્રીજ", type: "festival" },
+            { id: "2026-05-06", engDate: "6 May 2026", gujDate: "વૈશાખ સુદ ૪", gTithi: "ચોથ", vTithi: "ચતુર્થી", utsav: "", type: "normal" },
+            { id: "2026-05-07", engDate: "7 May 2026", gujDate: "વૈશાખ સુદ ૫", gTithi: "પાંચમ", vTithi: "પંચમી", utsav: "આદ્ય શંકરાચાર્ય જયંતી", type: "festival", isToday: true },
+            { id: "2026-05-08", engDate: "8 May 2026", gujDate: "વૈશાખ સુદ ૬", gTithi: "છઠ", vTithi: "ષષ્ઠી", utsav: "", type: "normal" },
+            { id: "2026-05-13", engDate: "13 May 2026", gujDate: "વૈશાખ સુદ ૧૧", gTithi: "એકાદશી", vTithi: "મોહિની એકાદશી", utsav: "મોહિની એકાદશી વ્રત", type: "ekadashi" }
+        ];
 
-        const grid = document.getElementById('grid');
-        for (let i = 1; i <= 31; i++) {
-            const dayData = tithiData[i] || { g: `તિથિ ${i}`, v: `તિથિ ${i}` };
-            const cell = document.createElement('div');
-            cell.className = `day-cell glass ${dayData.color ? 'ekadashi-glow' : ''}`;
-            cell.innerHTML = `
-                <div class="date-num">${i}</div>
-                <div class="tithi-group">
-                    <div class="t-badge g-style"><span class="tithi-tag">G:</span> ${dayData.g}</div>
-                    <div class="t-badge v-style"><span class="tithi-tag">V:</span> ${dayData.v}</div>
-                </div>
-                ${dayData.fest ? `<div class="fest-tag">${dayData.fest}</div>` : ''}
-            `;
-            cell.onclick = () => window.location.href = `tithidata.html?day=${i}`;
-            grid.appendChild(cell);
+        const tbody = document.getElementById('tithiTableBody');
+        const searchInput = document.getElementById('searchInput');
+
+        // Render Table Function
+        function renderTable(data) {
+            tbody.innerHTML = '';
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                
+                // Add specific styling classes
+                if (row.isToday) tr.classList.add('row-today');
+                if (row.type === 'ekadashi') tr.classList.add('row-ekadashi');
+
+                // On click, navigate to details page with ID
+                tr.onclick = () => window.location.href = `tithidata.html?id=${row.id}`;
+
+                tr.innerHTML = `
+                    <td>${row.engDate} ${row.isToday ? '<span style="font-size:0.7em; color:var(--saffron);"> (Today)</span>' : ''}</td>
+                    <td>${row.gujDate}</td>
+                    <td>${row.gTithi}</td>
+                    <td class="text-vraj">${row.vTithi}</td>
+                    <td class="text-festival">${row.utsav}</td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
-        lucide.createIcons();
+
+        // Search Functionality
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = panchangData.filter(item => 
+                item.gTithi.includes(term) || 
+                item.vTithi.includes(term) || 
+                item.utsav.includes(term) ||
+                item.engDate.toLowerCase().includes(term)
+            );
+            renderTable(filtered);
+        });
+
+        // Filter Functionality
+        function filterTable(filterType) {
+            // Update active button styling
+            document.querySelectorAll('.table-controls .btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (filterType === 'all') {
+                renderTable(panchangData);
+            } else if (filterType === 'ekadashi') {
+                renderTable(panchangData.filter(item => item.type === 'ekadashi'));
+            } else if (filterType === 'festival') {
+                renderTable(panchangData.filter(item => item.type === 'festival' || item.type === 'ekadashi'));
+            }
+        }
+
+        // Dark Mode Logic
+        function toggleTheme() {
+            const body = document.documentElement;
+            const current = body.getAttribute('data-theme');
+            body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+        }
+
+        // Load Footer dynamically
+        fetch('footer.html')
+            .then(res => res.text())
+            .then(data => document.getElementById('footer-container').innerHTML = data);
+
+        // Initial Render
+        renderTable(panchangData);
     </script>
 </body>
 </html>
