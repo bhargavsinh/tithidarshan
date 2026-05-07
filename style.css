@@ -1,45 +1,192 @@
 :root {
+    --bg-color: #FAFAFA;
+    --surface-color: #FFFFFF;
+    --text-main: #2D241E;
+    --text-muted: #666666;
     --saffron: #FF9933;
+    --saffron-light: rgba(255, 153, 51, 0.1);
     --gold: #D4AF37;
-    --peacock: #008080;
-    --cream: #FFFDF5;
-    --text: #2D241E;
-    --glass: rgba(255, 255, 255, 0.85);
-    --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --border-color: #E0D8C8;
+    --ekadashi-bg: rgba(212, 175, 55, 0.15);
+    --today-glow: 0 0 15px rgba(255, 153, 51, 0.3);
+    --transition: all 0.2s ease-in-out;
 }
 
 [data-theme="dark"] {
-    --cream: #12100E;
-    --text: #F5F5F5;
-    --glass: rgba(30, 25, 20, 0.9);
+    --bg-color: #12100E;
+    --surface-color: #1E1A17;
+    --text-main: #F5F5F5;
+    --text-muted: #A0A0A0;
+    --border-color: #3D352B;
+    --saffron-light: rgba(255, 153, 51, 0.15);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: var(--cream); color: var(--text); font-family: 'Poppins', sans-serif; transition: 0.3s; }
-.cinzel { font-family: 'Cinzel', serif; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', 'Noto Sans Gujarati', sans-serif;
+}
 
-/* Glassmorphism */
-.glass { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 15px; box-shadow: var(--shadow); }
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+}
 
-/* Calendar Grid */
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; padding: 15px; }
-.day-cell { min-height: 120px; padding: 10px; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
-.day-cell:hover { transform: translateY(-5px); border-color: var(--saffron); }
+h1, h2, h3, .traditional-font {
+    font-family: serif; /* Use a traditional serif as fallback */
+}
 
-.date-num { font-size: 1.2rem; font-weight: bold; }
-.tithi-group { display: flex; flex-direction: column; gap: 4px; margin-top: 5px; }
-.t-badge { font-size: 0.7rem; padding: 2px 5px; border-left: 3px solid; border-radius: 3px; }
-.g-style { border-color: var(--saffron); background: rgba(255,153,51,0.1); color: #d35400; }
-.v-style { border-color: var(--peacock); background: rgba(0,128,128,0.1); color: #006060; }
+/* Header & Nav */
+.top-nav {
+    background: var(--surface-color);
+    border-bottom: 2px solid var(--gold);
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
 
-.fest-tag { font-size: 0.65rem; background: var(--gold); color: white; padding: 2px 4px; border-radius: 3px; text-align: center; margin-top: auto; }
+.logo {
+    color: var(--saffron);
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-decoration: none;
+}
 
-/* Utilities */
-.btn { padding: 10px 20px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
-.btn-saffron { background: var(--saffron); color: white; }
+/* Buttons & Inputs */
+.btn {
+    padding: 8px 16px;
+    border: 1px solid var(--saffron);
+    background: transparent;
+    color: var(--saffron);
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+}
 
-@media (max-width: 768px) {
-    .calendar-grid { grid-template-columns: repeat(7, 1fr); gap: 5px; padding: 5px; }
-    .day-cell { min-height: 90px; padding: 5px; }
-    .t-badge { font-size: 0.6rem; }
+.btn:hover, .btn.active {
+    background: var(--saffron);
+    color: #fff;
+}
+
+.search-bar {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-color);
+    color: var(--text-main);
+    width: 250px;
+}
+
+/* Layout */
+.main-container {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+    padding: 20px 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Sidebar */
+.side-panel .card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.card-title {
+    color: var(--saffron);
+    border-bottom: 1px dashed var(--gold);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+/* Table Area */
+.table-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.table-wrapper {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow-x: auto; /* Horizontal scroll for mobile */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.panchang-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.panchang-table th {
+    background: var(--saffron-light);
+    color: var(--saffron);
+    padding: 15px;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    border-bottom: 2px solid var(--gold);
+}
+
+.panchang-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.panchang-table tbody tr {
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.panchang-table tbody tr:hover {
+    background: var(--bg-color);
+}
+
+/* Specific Row Highlights */
+.row-today {
+    background: var(--surface-color);
+    box-shadow: inset 4px 0 0 var(--saffron), var(--today-glow);
+    font-weight: 600;
+}
+
+.row-ekadashi {
+    background: var(--ekadashi-bg);
+}
+
+.text-vraj { color: #008080; font-weight: 600; }
+.text-festival { color: #d35400; font-weight: bold; }
+
+/* Mobile Optimization */
+@media (max-width: 900px) {
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+    .top-nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .search-bar { width: 100%; }
+}
+
+/* Print Styles */
+@media print {
+    .top-nav, .side-panel, .table-controls { display: none; }
+    .main-container { display: block; }
+    .panchang-table { border: 1px solid #000; }
+    .panchang-table th, .panchang-table td { border: 1px solid #000; color: #000; }
 }
