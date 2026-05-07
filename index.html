@@ -1,3 +1,139 @@
-<html>
-  <h1>જય શ્રી કૃષ્ણ 🙏</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TithiDarshan | Divine Digital Panchang</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container flex items-center justify-between">
+            <a href="index.html" class="logo">TithiDarshan</a>
+            <div class="nav-actions flex items-center" style="gap: 15px;">
+                <button class="btn-primary" onclick="renderCalendar()">Today</button>
+                <button id="themeToggle" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container grid" style="grid-template-columns: 1fr 3fr; gap: 2rem; margin-top: 2rem;">
+        
+        <aside class="sidebar">
+            <div class="glass-card animate-float">
+                <h2 style="color: var(--saffron); margin-bottom: 1rem;">Today's Darshan</h2>
+                <h3 class="gujarati">ફાગણ સુદ એકાદશી</h3>
+                <p>Vikram Samvat 2082</p>
+                <hr style="border-color: var(--border-color); margin: 1rem 0;">
+                <p><strong>Sunrise:</strong> 06:45 AM</p>
+                <p><strong>Sunset:</strong> 06:30 PM</p>
+                <p style="color: var(--gold); font-weight: 600; margin-top: 1rem;">✨ Amalaki Ekadashi</p>
+            </div>
+        </aside>
+
+        <main class="calendar-container">
+            <div class="flex justify-between items-center" style="margin-bottom: 1rem;">
+                <h2 id="monthYearDisplay">March 2026</h2>
+                <div>
+                    <button class="btn-primary" onclick="prevMonth()">&lt;</button>
+                    <button class="btn-primary" onclick="nextMonth()">&gt;</button>
+                </div>
+            </div>
+            
+            <div class="glass-card">
+                <div class="calendar-grid" id="calendarHeader">
+                    <div class="day-header">Sun</div><div class="day-header">Mon</div>
+                    <div class="day-header">Tue</div><div class="day-header">Wed</div>
+                    <div class="day-header">Thu</div><div class="day-header">Fri</div>
+                    <div class="day-header">Sat</div>
+                </div>
+                <div class="calendar-grid" id="calendarDays">
+                    </div>
+            </div>
+        </main>
+    </div>
+
+    <div style="position: fixed; bottom: 30px; right: 30px;">
+        <button class="btn-primary" style="border-radius: 50%; width: 60px; height: 60px; font-size: 1.5rem; box-shadow: var(--shadow-divine);">✨</button>
+    </div>
+
+    <div id="footer-container"></div>
+
+    <script>
+        // Dark Mode Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.body.removeAttribute('data-theme');
+                themeToggle.innerText = '🌙';
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                themeToggle.innerText = '☀️';
+            }
+        });
+
+        // Calendar Engine Logic
+        const calendarDays = document.getElementById('calendarDays');
+        const monthYearDisplay = document.getElementById('monthYearDisplay');
+        let currentDate = new Date();
+
+        // Mock Panchang Data for demonstration
+        const mockPanchang = {
+            "2026-03-03": { tithi: "Phalgun Sud 11", event: "Amalaki Ekadashi", isEkadashi: true },
+            "2026-03-14": { tithi: "Phalgun Vad 11", event: "Papmochani Ekadashi", isEkadashi: true }
+        };
+
+        function renderCalendar() {
+            calendarDays.innerHTML = "";
+            const month = currentDate.getMonth();
+            const year = currentDate.getFullYear();
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            monthYearDisplay.innerText = `${monthNames[month]} ${year}`;
+
+            // Blank days before the 1st
+            for (let i = 0; i < firstDay; i++) {
+                calendarDays.innerHTML += `<div class="calendar-cell" style="opacity: 0.3;"></div>`;
+            }
+
+            // Actual days
+            for (let i = 1; i <= daysInMonth; i++) {
+                // Formatting date string as YYYY-MM-DD for data lookup
+                const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                const panchangInfo = mockPanchang[dateString];
+                
+                let extraHTML = "";
+                let cellClass = "calendar-cell";
+
+                if (panchangInfo) {
+                    extraHTML += `<div class="tithi-text gujarati">${panchangInfo.tithi}</div>`;
+                    if (panchangInfo.event) extraHTML += `<div class="event-badge">${panchangInfo.event}</div>`;
+                    if (panchangInfo.isEkadashi) cellClass += " ekadashi-glow";
+                } else {
+                    // Default mock tithi text
+                    extraHTML += `<div class="tithi-text gujarati">તિથિ</div>`;
+                }
+
+                calendarDays.innerHTML += `
+                    <div class="${cellClass}" onclick="window.location.href='tithidata.html'">
+                        <div class="date-num">${i}</div>
+                        ${extraHTML}
+                    </div>
+                `;
+            }
+        }
+
+        function prevMonth() { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); }
+        function nextMonth() { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); }
+
+        // Initialize
+        renderCalendar();
+    </script>
+</body>
 </html>
+
