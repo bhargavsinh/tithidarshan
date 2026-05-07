@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security & Privacy | TithiDarshan</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .policy-section { margin-bottom: 50px; }
+        .policy-section h2 { color: var(--saffron); margin-bottom: 20px; border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding-bottom: 10px; }
+        .side-nav a { display: block; padding: 10px; color: var(--text-deep); text-decoration: none; border-radius: 8px; transition: var(--smooth); }
+        .side-nav a:hover { background: rgba(255, 153, 51, 0.1); color: var(--saffron); }
+        .secure-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(212, 175, 55, 0.1); padding: 10px 20px; border-radius: 50px; border: 1px solid var(--gold); margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <nav class="glass-card" style="margin: 15px; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 15px; z-index: 1000;">
+        <div class="logo cinzel" style="font-size: 1.5rem; font-weight: bold; color: var(--saffron); cursor: pointer;" onclick="window.location.href='index.html'">TithiDarshan</div>
+        <div class="nav-actions">
+            <button class="glass-card" style="padding: 8px 20px; border: none; cursor: pointer;" onclick="window.location.href='index.html'">Back to Home</button>
+        </div>
+    </nav>
+
+    <main style="max-width: 1200px; margin: 40px auto; display: grid; grid-template-columns: 280px 1fr; gap: 40px; padding: 20px;">
+        
+        <aside style="position: sticky; top: 100px; height: fit-content;">
+            <div class="glass-card side-nav" style="padding: 20px;">
+                <h4 class="cinzel" style="margin-bottom: 15px;">Legal Center</h4>
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#cookies">Cookie Policy</a>
+                <a href="#protection">Data Protection</a>
+            </div>
+        </aside>
+
+        <section class="glass-card" style="padding: 50px; line-height: 1.8;">
+            
+            <div class="secure-badge">
+                <i data-lucide="shield-check" style="color: var(--gold);"></i>
+                <span style="font-size: 0.9rem; font-weight: 600;">Your spiritual data is encrypted & secure</span>
+            </div>
+
+            <div id="privacy" class="policy-section">
+                <h2 class="cinzel">Privacy Policy</h2>
+                <p>At TithiDarshan, we respect the sanctity of your personal data. We do not sell your meditation schedules, fasting logs, or location data to third parties. We only collect information necessary to provide accurate astronomical calculations based on your region.</p>
+                <ul>
+                    <li><strong>Location Data:</strong> Used strictly for Sunrise/Sunset and Tithi precision.</li>
+                    <li><strong>Account Info:</strong> Encrypted using industry-standard hashing.</li>
+                </ul>
+            </div>
+
+            <div id="terms" class="policy-section">
+                <h2 class="cinzel">Terms & Conditions</h2>
+                <p>The calculations provided are based on traditional Vedic algorithms. While we strive for 99.9% accuracy, Tithi timings may vary slightly based on different local sampradayas. Users are encouraged to use the "Ask AI Panchang" feature for specific regional queries.</p>
+            </div>
+
+            <div id="cookies" class="policy-section">
+                <h2 class="cinzel">Cookie Policy</h2>
+                <p>We use minimal cookies to remember your preference for <strong>Dark Mode</strong> and your <strong>Language</strong> settings. No tracking or advertising cookies are utilized within the TithiDarshan ecosystem.</p>
+            </div>
+
+            <div id="protection" class="policy-section">
+                <h2 class="cinzel">Security Information</h2>
+                <p>We employ <strong>SSL Encryption</strong> and <strong>DDoS Protection</strong> to ensure the calendar remains accessible during peak festival times like Diwali or Ekadashi, when traffic is highest.</p>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
