@@ -133,6 +133,39 @@
 
         // Initialize
         renderCalendar();
+// માની લો કે આ લૂપ તમારા કેલેન્ડરના દિવસો બનાવે છે
+const calendarGrid = document.getElementById('calendarGrid');
+
+for (let i = 1; i <= 31; i++) {
+    const dayCell = document.createElement('div');
+    dayCell.className = 'day-cell glass-card';
+
+    // ઉદાહરણ ડેટા: (ખરેખર આ ડેટા તમારા પંચાંગ મુજબ ડાયનેમિક હશે)
+    let gurjarTithi = "દશમી";
+    let vrajTithi = "એકાદશી"; 
+
+    dayCell.innerHTML = `
+        <div class="date-number">${i}</div>
+        
+        <div class="tithi-box">
+            <div class="tithi-item g-tithi">
+                <span class="tithi-tag">G:</span>
+                <span>${gurjarTithi}</span>
+            </div>
+            
+            <div class="tithi-item v-tithi">
+                <span class="tithi-tag">V:</span>
+                <span>${vrajTithi}</span>
+            </div>
+        </div>
+        
+        ${i === 11 ? '<div class="festival-tag" style="font-size:0.6rem; text-align:center;">પુત્રદા એકાદશી</div>' : ''}
+    `;
+
+    dayCell.onclick = () => window.location.href = `tithidata.html?date=${i}`;
+    calendarGrid.appendChild(dayCell);
+}
+
     </script>
 </body>
 </html>
