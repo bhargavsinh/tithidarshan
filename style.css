@@ -1,72 +1,45 @@
 :root {
     --saffron: #FF9933;
     --gold: #D4AF37;
-    --peacock: #008080; /* વ્રજ પંચાંગ માટે */
+    --peacock: #008080;
     --cream: #FFFDF5;
     --text: #2D241E;
-    --glass: rgba(255, 255, 255, 0.8);
+    --glass: rgba(255, 255, 255, 0.85);
     --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-
 [data-theme="dark"] {
-    --cream: #1A1612;
+    --cream: #12100E;
     --text: #F5F5F5;
-    --glass: rgba(30, 25, 20, 0.85);
+    --glass: rgba(30, 25, 20, 0.9);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Noto Sans Gujarati', sans-serif; }
-
-body { background: var(--cream); color: var(--text); transition: all 0.3s ease; }
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--cream); color: var(--text); font-family: 'Poppins', sans-serif; transition: 0.3s; }
 .cinzel { font-family: 'Cinzel', serif; }
 
+/* Glassmorphism */
+.glass { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 15px; box-shadow: var(--shadow); }
+
 /* Calendar Grid */
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 12px;
-    padding: 20px;
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; padding: 15px; }
+.day-cell { min-height: 120px; padding: 10px; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+.day-cell:hover { transform: translateY(-5px); border-color: var(--saffron); }
+
+.date-num { font-size: 1.2rem; font-weight: bold; }
+.tithi-group { display: flex; flex-direction: column; gap: 4px; margin-top: 5px; }
+.t-badge { font-size: 0.7rem; padding: 2px 5px; border-left: 3px solid; border-radius: 3px; }
+.g-style { border-color: var(--saffron); background: rgba(255,153,51,0.1); color: #d35400; }
+.v-style { border-color: var(--peacock); background: rgba(0,128,128,0.1); color: #006060; }
+
+.fest-tag { font-size: 0.65rem; background: var(--gold); color: white; padding: 2px 4px; border-radius: 3px; text-align: center; margin-top: auto; }
+
+/* Utilities */
+.btn { padding: 10px 20px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
+.btn-saffron { background: var(--saffron); color: white; }
+
+@media (max-width: 768px) {
+    .calendar-grid { grid-template-columns: repeat(7, 1fr); gap: 5px; padding: 5px; }
+    .day-cell { min-height: 90px; padding: 5px; }
+    .t-badge { font-size: 0.6rem; }
 }
-
-.day-cell {
-    background: var(--glass);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    border-radius: 15px;
-    padding: 12px;
-    min-height: 120px;
-    cursor: pointer;
-    transition: 0.3s;
-    display: flex;
-    flex-direction: column;
-}
-
-.day-cell:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--saffron); }
-
-.date-num { font-size: 1.2rem; font-weight: bold; margin-bottom: 8px; }
-
-/* Tithi Badges */
-.tithi-item {
-    font-size: 0.75rem;
-    padding: 3px 6px;
-    margin-bottom: 4px;
-    border-radius: 4px;
-    border-left: 3px solid;
-}
-
-.g-tithi { background: rgba(255, 153, 51, 0.1); border-color: var(--saffron); color: #d35400; }
-.v-tithi { background: rgba(0, 128, 128, 0.1); border-color: var(--peacock); color: var(--peacock); font-weight: 600; }
-
-.fest-tag {
-    font-size: 0.65rem;
-    background: var(--gold);
-    color: white;
-    text-align: center;
-    border-radius: 10px;
-    margin-top: auto;
-    padding: 2px 0;
-}
-
-/* Utils */
-.glass-card { background: var(--glass); backdrop-filter: blur(10px); border-radius: 20px; box-shadow: var(--shadow); }
